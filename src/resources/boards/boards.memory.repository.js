@@ -1,4 +1,5 @@
 const { BOARDS_DB } = require('../../common/localDb');
+const deleteBoardsTask = require('../filters/deleteBoard');
 
 const getAllBoards = async () => BOARDS_DB;
 
@@ -9,4 +10,22 @@ const createBoard = async (board) => {
   return getBoardById(board.id);
 };
 
-module.exports = { getAllBoards, getBoardById, createBoard };
+const changeBoard = async (board, id) => {
+  const currentBoard = BOARDS_DB.find((el) => id === el.id);
+  return Object.assign(currentBoard, board);
+};
+
+const deleteBoard = async (id) => {
+  deleteBoardsTask(id);
+  const boardIndex = BOARDS_DB.findIndex((el) => id === el.id);
+  BOARDS_DB.splice(boardIndex, 1);
+  return BOARDS_DB;
+};
+
+module.exports = {
+  getAllBoards,
+  getBoardById,
+  createBoard,
+  changeBoard,
+  deleteBoard,
+};
