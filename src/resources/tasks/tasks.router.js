@@ -7,12 +7,13 @@ router.route('/').get(async (req, res) => {
   res.status(200).json(tasks.map(Task.toResponse));
 });
 
-router.route('/:id').get(async (req, res) => {
-  const task = await tasksService.getTaskById(req.params.id);
+router.route('/:taskId').get(async (req, res) => {
+  const task = await tasksService.getTaskById(req.params.taskId);
   if (!task) {
-    return res.status(404).json();
+    res.status(404).json();
+  } else {
+    res.status(200).json(Task.toResponse(task));
   }
-  return res.status(200).json(Task.toResponse(task));
 });
 
 router.route('/').post(async (req, res) => {
@@ -21,7 +22,7 @@ router.route('/').post(async (req, res) => {
     order: req.body.order,
     description: req.body.description,
     userId: req.body.userId,
-    boardId: req.params.id,
+    boardId: req.params.boardId,
     columnId: req.body.columnId,
   });
 
@@ -29,14 +30,14 @@ router.route('/').post(async (req, res) => {
   res.status(201).json(Task.toResponse(task));
 });
 
-router.route('/:id').put(async (req, res) => {
-  const task = await tasksService.changeTask(req.body, req.params.id);
+router.route('/:taskId').put(async (req, res) => {
+  const task = await tasksService.changeTask(req.body, req.params.taskId);
   res.status(200).json(Task.toResponse(task));
 });
 
-router.route('/:id').delete(async (req, res) => {
-  await tasksService.deleteTask(req.params.id);
-  res.status(204).json();
+router.route('/:taskId').delete(async (req, res) => {
+  const tasks = await tasksService.deleteTask(req.params.taskId);
+  res.status(204).json(tasks.map(Task.toResponse));
 });
 
 module.exports = router;

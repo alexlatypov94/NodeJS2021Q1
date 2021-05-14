@@ -17,6 +17,7 @@ const changeTask = async (task, id) => {
 const deleteTask = async (id) => {
   const taskIndex = TASKS.findIndex((el) => id === el.id);
   TASKS.splice(taskIndex, 1);
+  return TASKS;
 };
 
 module.exports = {

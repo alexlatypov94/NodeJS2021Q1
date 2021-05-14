@@ -1,15 +1,14 @@
 const router = require('express').Router();
 const User = require('./user.model');
 const usersService = require('./user.service');
-// const updateUser = require('../filters/deleteUser');
 
 router.route('/').get(async (req, res) => {
   const users = await usersService.getAllUsers();
   res.status(200).json(users.map(User.toResponse));
 });
 
-router.route('/:id').get(async (req, res) => {
-  const user = await usersService.getUserById(req.params.id);
+router.route('/:userId').get(async (req, res) => {
+  const user = await usersService.getUserById(req.params.userId);
   res.status(200).json(User.toResponse(user));
 });
 
@@ -23,15 +22,14 @@ router.route('/').post(async (req, res) => {
   res.status(201).json(User.toResponse(user));
 });
 
-router.route('/:id').put(async (req, res) => {
-  const currentUser = await usersService.changeUser(req.body, req.params.id);
+router.route('/:userId').put(async (req, res) => {
+  const currentUser = await usersService.changeUser(req.body, req.params.userId);
   res.status(200).json(User.toResponse(currentUser));
 });
 
-router.route('/:id').delete(async (req, res) => {
-  await usersService.deleteUser(req.params.id);
-  // updateUser(req.params.id);
-  res.status(204).send();
+router.route('/:userId').delete(async (req, res) => {
+  const users = await usersService.deleteUser(req.params.userId);
+  res.status(204).json(users.map(User.toResponse));
 });
 
 module.exports = router;
