@@ -1,5 +1,5 @@
 const { BOARDS_DB } = require('../../common/localDb');
-const deleteBoardsTask = require('../filters/deleteBoard');
+const { deleteBoardsTask } = require('../utils/taskRemove');
 
 const getAllBoards = async () => BOARDS_DB;
 

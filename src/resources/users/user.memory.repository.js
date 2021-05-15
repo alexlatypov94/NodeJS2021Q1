@@ -1,5 +1,5 @@
 const { USERS_DB } = require('../../common/localDb');
-const updateUser = require('../filters/deleteUser');
+const { updateUser } = require('../utils/taskRemove');
 
 const getAllUsers = async () => USERS_DB;
 
@@ -19,7 +19,7 @@ const deleteUser = async (id) => {
   const index = USERS_DB.findIndex((el) => id === el.id);
   USERS_DB.splice(index, 1);
   updateUser(id);
-  return USERS_DB
+  return USERS_DB;
 };
 
 module.exports = {
