@@ -1,6 +1,31 @@
-const getAll = async () => {
-  // TODO: mock implementation. should be replaced during task development
-  return [];
+const { USERS_DB } = require('../../common/localDb');
+const { updateUser } = require('../utils/taskRemove');
+
+const getAllUsers = async () => USERS_DB;
+
+const getUserById = async (id) => USERS_DB.find((el) => id === el.id);
+
+const createUser = async (user) => {
+  USERS_DB.push(user);
+  return getUserById(user.id);
 };
 
-module.exports = { getAll };
+const changeUser = async (user, id) => {
+  const currentUser = USERS_DB.find((el) => id === el.id);
+  return Object.assign(currentUser, user);
+};
+
+const deleteUser = async (id) => {
+  const index = USERS_DB.findIndex((el) => id === el.id);
+  USERS_DB.splice(index, 1);
+  updateUser(id);
+  return USERS_DB;
+};
+
+module.exports = {
+  getAllUsers,
+  getUserById,
+  createUser,
+  changeUser,
+  deleteUser,
+};
