@@ -1,7 +1,18 @@
+/**
+ * The module for remove tasks functions
+ * @module Utils
+ */
+
 const taskRepo = require('../../common/localDb');
 const { TASKS } = require('../../common/localDb');
 
-const deleteBoardsTask = (id) => {
+/**
+ * ### Function for removed board
+ * @param {string} id - the board's id
+ * @returns {Promise<TaskObj[]>}
+ */
+
+const deleteBoardsTask = async (id) => {
   const newTasks = TASKS.map((el, index) => {
     if (id === el.boardId) {
       return index;
@@ -14,7 +25,12 @@ const deleteBoardsTask = (id) => {
   return taskRepo.TASKS;
 };
 
-const updateUser = (id) => {
+/**
+ * ### Function for removed user
+ * @param {string} id - the user's id
+ */
+
+const updateUser = async (id) => {
   taskRepo.TASKS.forEach((el) => {
     if (el.userId === id) {
       const newObj = { ...el, userId: null };
