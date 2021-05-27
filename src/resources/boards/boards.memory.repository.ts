@@ -1,7 +1,10 @@
+import { IBoard } from '../../interfaces';
+
 /**
  * The module for Board memory functions
  * @module BoardMemoryRepo
  */
+export {};
 
 const { BOARDS_DB } = require('../../common/localDb');
 const { deleteBoardsTask } = require('../utils/taskRemove');
@@ -19,7 +22,8 @@ const getAllBoards = async () => BOARDS_DB;
  * @returns {Promise<BoardObj>} - Found board
  */
 
-const getBoardById = async (id) => BOARDS_DB.find((el) => id === el.id);
+const getBoardById = async (id: string) =>
+  BOARDS_DB.find((el: IBoard) => id === el.id);
 
 /**
  * ## Create new Board
@@ -27,7 +31,7 @@ const getBoardById = async (id) => BOARDS_DB.find((el) => id === el.id);
  * @returns {Promise<BoardObj>} - Created board
  */
 
-const createBoard = async (board) => {
+const createBoard = async (board: IBoard) => {
   BOARDS_DB.push(board);
   return getBoardById(board.id);
 };
@@ -39,8 +43,8 @@ const createBoard = async (board) => {
  * @returns {Promise<BoardObj>} - Changed board
  */
 
-const changeBoard = async (board, id) => {
-  const currentBoard = BOARDS_DB.find((el) => id === el.id);
+const changeBoard = async (board: IBoard, id: string) => {
+  const currentBoard = BOARDS_DB.find((el: IBoard) => id === el.id);
   return Object.assign(currentBoard, board);
 };
 
@@ -50,9 +54,9 @@ const changeBoard = async (board, id) => {
  * @returns {Promise<BoardObj[]>} - New BD without deleted board
  */
 
-const deleteBoard = async (id) => {
+const deleteBoard = async (id: string) => {
   deleteBoardsTask(id);
-  const boardIndex = BOARDS_DB.findIndex((el) => id === el.id);
+  const boardIndex = BOARDS_DB.findIndex((el: IBoard) => id === el.id);
   BOARDS_DB.splice(boardIndex, 1);
   return BOARDS_DB;
 };

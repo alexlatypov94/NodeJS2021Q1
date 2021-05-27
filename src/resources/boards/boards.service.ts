@@ -1,3 +1,4 @@
+import { IBoard } from './../../interfaces/interfaceDB';
 /**
  * Module for all Board services functions
  * @module BoardServices
@@ -18,7 +19,7 @@ const getAllBoards = () => boardMemory.getAllBoards();
  * @returns {Promise<BoardObj>} - the board with current id
  */
 
-const getBoardById = (id) => boardMemory.getBoardById(id);
+const getBoardById = (id: string) => boardMemory.getBoardById(id);
 
 /**
  * ### Board service
@@ -26,7 +27,7 @@ const getBoardById = (id) => boardMemory.getBoardById(id);
  * @returns {Promise<BoardObj>} - new Board
  */
 
-const createBoard = (board) => boardMemory.createBoard(board);
+const createBoard = (board: IBoard) => boardMemory.createBoard(board);
 
 /**
  * ### Board service
@@ -35,7 +36,8 @@ const createBoard = (board) => boardMemory.createBoard(board);
  * @returns {Promise<BoardObj>} - the changed board
  */
 
-const changeBoard = (board, id) => boardMemory.changeBoard(board, id);
+const changeBoard = (board: IBoard, id: string) =>
+  boardMemory.changeBoard(board, id);
 
 /**
  * ### Board service
@@ -43,7 +45,7 @@ const changeBoard = (board, id) => boardMemory.changeBoard(board, id);
  * @returns {Promise<BoardObj[]>} - all boards without deleted board
  */
 
-const deleteBoard = (id) => boardMemory.deleteBoard(id);
+const deleteBoard = (id: string) => boardMemory.deleteBoard(id);
 
 module.exports = {
   getAllBoards,
