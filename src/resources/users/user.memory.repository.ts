@@ -2,7 +2,8 @@
  * The module for User memory functions
  * @module UserMemoryRepo
  */
-
+export { }
+import { IUser } from "../../interfaces";
 const { USERS_DB } = require('../../common/localDb');
 const { updateUser } = require('../utils/taskRemove');
 
@@ -11,7 +12,7 @@ const { updateUser } = require('../utils/taskRemove');
  * @returns {Promise<UserObj[]>} - All users
  */
 
-const getAllUsers = async () => USERS_DB;
+const getAllUsers = async (): Promise<Array<IUser>> => USERS_DB;
 
 /**
  * ## Get user by ID
@@ -19,7 +20,7 @@ const getAllUsers = async () => USERS_DB;
  * @returns {Promise<UserObj>} - the current user
  */
 
-const getUserById = async (id) => USERS_DB.find((el) => id === el.id);
+const getUserById = async (id: string): Promise<IUser> => USERS_DB.find((el: IUser) => id === el.id);
 
 /**
  * ## Create new user
@@ -27,7 +28,7 @@ const getUserById = async (id) => USERS_DB.find((el) => id === el.id);
  * @returns {Promise<UserObj>} - new User
  */
 
-const createUser = async (user) => {
+const createUser = async (user: IUser): Promise<IUser> => {
   USERS_DB.push(user);
   return getUserById(user.id);
 };
@@ -39,8 +40,8 @@ const createUser = async (user) => {
  * @returns {Promise<UserObj>} - Changed User
  */
 
-const changeUser = async (user, id) => {
-  const currentUser = USERS_DB.find((el) => id === el.id);
+const changeUser = async (user: IUser, id: string): Promise<IUser> => {
+  const currentUser = USERS_DB.find((el: IUser) => id === el.id);
   return Object.assign(currentUser, user);
 };
 
@@ -50,8 +51,8 @@ const changeUser = async (user, id) => {
  * @returns {Promise<UserObj[]>} - all users
  */
 
-const deleteUser = async (id) => {
-  const index = USERS_DB.findIndex((el) => id === el.id);
+const deleteUser = async (id: string): Promise<Array<IUser>> => {
+  const index = USERS_DB.findIndex((el: IUser) => id === el.id);
   USERS_DB.splice(index, 1);
   updateUser(id);
   return USERS_DB;

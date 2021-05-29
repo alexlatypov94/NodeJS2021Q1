@@ -1,9 +1,9 @@
-import { IBoard } from './../../interfaces/interfaceDB';
 /**
  * Module for all Board services functions
  * @module BoardServices
  */
 
+import { IBoard } from './../../interfaces/interfaceDB';
 const boardMemory = require('./boards.memory.repository');
 
 /**
@@ -11,7 +11,7 @@ const boardMemory = require('./boards.memory.repository');
  * @returns {Promise<BoardObj>} - all boards
  */
 
-const getAllBoards = () => boardMemory.getAllBoards();
+const getAllBoards = (): Promise<Array<IBoard>> => boardMemory.getAllBoards();
 
 /**
  * ### Board service
@@ -19,7 +19,7 @@ const getAllBoards = () => boardMemory.getAllBoards();
  * @returns {Promise<BoardObj>} - the board with current id
  */
 
-const getBoardById = (id: string) => boardMemory.getBoardById(id);
+const getBoardById = (id: string): Promise<IBoard> => boardMemory.getBoardById(id);
 
 /**
  * ### Board service
@@ -27,7 +27,7 @@ const getBoardById = (id: string) => boardMemory.getBoardById(id);
  * @returns {Promise<BoardObj>} - new Board
  */
 
-const createBoard = (board: IBoard) => boardMemory.createBoard(board);
+const createBoard = (board: IBoard): Promise<IBoard> => boardMemory.createBoard(board);
 
 /**
  * ### Board service
@@ -36,7 +36,7 @@ const createBoard = (board: IBoard) => boardMemory.createBoard(board);
  * @returns {Promise<BoardObj>} - the changed board
  */
 
-const changeBoard = (board: IBoard, id: string) =>
+const changeBoard = (board: IBoard, id: string): Promise<IBoard> =>
   boardMemory.changeBoard(board, id);
 
 /**
@@ -45,7 +45,7 @@ const changeBoard = (board: IBoard, id: string) =>
  * @returns {Promise<BoardObj[]>} - all boards without deleted board
  */
 
-const deleteBoard = (id: string) => boardMemory.deleteBoard(id);
+const deleteBoard = (id: string): Promise<Array<IBoard>> => boardMemory.deleteBoard(id);
 
 module.exports = {
   getAllBoards,

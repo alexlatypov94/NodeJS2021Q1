@@ -1,3 +1,5 @@
+import { IUser } from "../../interfaces";
+
 const uuid = require('uuid');
 /**
  * @typedef {Object} UserObj - User
@@ -8,7 +10,11 @@ const uuid = require('uuid');
  */
 
 /** Class User */
-class User {
+class User implements IUser {
+  id: string;
+  name: string;
+  login: string;
+  password: string;
   /**
    * @param {string} id - The user's id
    * @param {string} name - The user's name
@@ -32,7 +38,7 @@ class User {
    * @returns {Object} new user
    */
 
-  static toResponse(user) {
+  static toResponse(user: IUser) {
     const { id, name, login } = user;
     return { id, name, login };
   }

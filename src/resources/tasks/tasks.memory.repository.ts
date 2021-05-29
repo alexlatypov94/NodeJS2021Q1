@@ -2,7 +2,8 @@
  * The module for Task memory functions
  * @module TaskMemoryRepo
  */
-
+export {}
+import { ITask } from "../../interfaces";
 const { TASKS } = require('../../common/localDb');
 
 /**
@@ -10,7 +11,7 @@ const { TASKS } = require('../../common/localDb');
  * @returns {Promise<TaskObj[]>} - all tasks
  */
 
-const getAllTasks = async () => TASKS;
+const getAllTasks = async (): Promise<Array<ITask>> => TASKS;
 
 /**
  * ## Get task by ID
@@ -18,7 +19,7 @@ const getAllTasks = async () => TASKS;
  * @returns {Promise<TaskObj>} - needed task
  */
 
-const getTaskById = async (id) => TASKS.find((el) => id === el.id);
+const getTaskById = async (id: string): Promise<ITask> => TASKS.find((el: ITask) => id === el.id);
 
 /**
  * ## Create new task
@@ -26,7 +27,7 @@ const getTaskById = async (id) => TASKS.find((el) => id === el.id);
  * @returns {Promise<TaskObj>} - new task
  */
 
-const createTask = async (task) => {
+const createTask = async (task: ITask): Promise<ITask> => {
   TASKS.push(task);
   return getTaskById(task.id);
 };
@@ -38,8 +39,8 @@ const createTask = async (task) => {
  * @returns {Promise<TaskObj>} - changed task
  */
 
-const changeTask = async (task, id) => {
-  const currentTask = TASKS.find((el) => id === el.id);
+const changeTask = async (task: ITask, id: string): Promise<ITask> => {
+  const currentTask = TASKS.find((el: ITask) => id === el.id);
   return Object.assign(currentTask, task);
 };
 
@@ -49,8 +50,8 @@ const changeTask = async (task, id) => {
  * @returns {Promise<TaskObj[]>} - all tasks
  */
 
-const deleteTask = async (id) => {
-  const taskIndex = TASKS.findIndex((el) => id === el.id);
+const deleteTask = async (id: string): Promise<Array<ITask>> => {
+  const taskIndex = TASKS.findIndex((el: ITask) => id === el.id);
   TASKS.splice(taskIndex, 1);
   return TASKS;
 };

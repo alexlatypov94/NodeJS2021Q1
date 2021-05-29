@@ -1,11 +1,10 @@
-import { IBoard } from '../../interfaces';
-
 /**
  * The module for Board memory functions
  * @module BoardMemoryRepo
  */
-export {};
 
+ export {};
+ import { IBoard } from '../../interfaces';
 const { BOARDS_DB } = require('../../common/localDb');
 const { deleteBoardsTask } = require('../utils/taskRemove');
 
@@ -14,7 +13,7 @@ const { deleteBoardsTask } = require('../utils/taskRemove');
  * @returns {Promise<BoardObj[]>} - All boards
  */
 
-const getAllBoards = async () => BOARDS_DB;
+const getAllBoards = async (): Promise<Array<IBoard>> => BOARDS_DB;
 
 /**
  * ## Get user By ID
@@ -22,7 +21,7 @@ const getAllBoards = async () => BOARDS_DB;
  * @returns {Promise<BoardObj>} - Found board
  */
 
-const getBoardById = async (id: string) =>
+const getBoardById = async (id: string): Promise<IBoard> =>
   BOARDS_DB.find((el: IBoard) => id === el.id);
 
 /**
@@ -31,7 +30,7 @@ const getBoardById = async (id: string) =>
  * @returns {Promise<BoardObj>} - Created board
  */
 
-const createBoard = async (board: IBoard) => {
+const createBoard = async (board: IBoard): Promise<IBoard> => {
   BOARDS_DB.push(board);
   return getBoardById(board.id);
 };
@@ -43,7 +42,7 @@ const createBoard = async (board: IBoard) => {
  * @returns {Promise<BoardObj>} - Changed board
  */
 
-const changeBoard = async (board: IBoard, id: string) => {
+const changeBoard = async (board: IBoard, id: string): Promise<IBoard> => {
   const currentBoard = BOARDS_DB.find((el: IBoard) => id === el.id);
   return Object.assign(currentBoard, board);
 };
@@ -54,9 +53,9 @@ const changeBoard = async (board: IBoard, id: string) => {
  * @returns {Promise<BoardObj[]>} - New BD without deleted board
  */
 
-const deleteBoard = async (id: string) => {
+const deleteBoard = async (id: string): Promise<Array<IBoard>> => {
   deleteBoardsTask(id);
-  const boardIndex = BOARDS_DB.findIndex((el: IBoard) => id === el.id);
+  const boardIndex: number = BOARDS_DB.findIndex((el: IBoard) => id === el.id);
   BOARDS_DB.splice(boardIndex, 1);
   return BOARDS_DB;
 };

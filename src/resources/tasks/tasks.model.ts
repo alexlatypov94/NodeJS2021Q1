@@ -1,3 +1,5 @@
+export { }
+import { ITask } from "../../interfaces";
 const uuid = require('uuid');
 /**
  * @typedef {Object} TaskObj - User
@@ -11,7 +13,14 @@ const uuid = require('uuid');
  */
 
 /** Class Task */
-class Task {
+class Task implements ITask {
+  id: string;
+  title: string;
+  order: number;
+  description: string;
+  userId: string;
+  boardId: string;
+  columnId: string;
   /**
    * @param {string} id - The task's id
    * @param {string} title - The tasks's title
@@ -45,7 +54,7 @@ class Task {
    * @returns {Object} task
    */
 
-  static toResponse(task) {
+  static toResponse(task: ITask) {
     const { id, title, order, description, userId, boardId, columnId } = task;
     return { id, title, order, description, userId, boardId, columnId };
   }

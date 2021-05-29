@@ -3,6 +3,7 @@
  * @module UserServices
  */
 
+import { IUser } from "../../interfaces";
 const usersRepo = require('./user.memory.repository');
 
 /**
@@ -10,7 +11,7 @@ const usersRepo = require('./user.memory.repository');
  * @returns {Promise<UserObj[]>} - all tasks
  */
 
-const getAllUsers = () => usersRepo.getAllUsers();
+const getAllUsers = (): Promise<Array<IUser>> => usersRepo.getAllUsers();
 
 /**
  * ### User service
@@ -18,7 +19,7 @@ const getAllUsers = () => usersRepo.getAllUsers();
  * @returns {Promise<UserObj>} - the user with current id
  */
 
-const getUserById = (id) => usersRepo.getUserById(id);
+const getUserById = (id: string): Promise<IUser> => usersRepo.getUserById(id);
 
 /**
  * ### User service
@@ -26,7 +27,7 @@ const getUserById = (id) => usersRepo.getUserById(id);
  * @returns {Promise<UserObj>} - new User
  */
 
-const createUser = (user) => usersRepo.createUser(user);
+const createUser = (user: IUser): Promise<IUser> => usersRepo.createUser(user);
 
 /**
  * ### User service
@@ -35,7 +36,7 @@ const createUser = (user) => usersRepo.createUser(user);
  * @returns {Promise<UserObj>} - the changed user
  */
 
-const changeUser = (user, id) => usersRepo.changeUser(user, id);
+const changeUser = (user: IUser, id: string): Promise<IUser> => usersRepo.changeUser(user, id);
 
 /**
  * ### User service
@@ -43,7 +44,7 @@ const changeUser = (user, id) => usersRepo.changeUser(user, id);
  * @returns {Promise<UserObj[]>}
  */
 
-const deleteUser = (id) => usersRepo.deleteUser(id);
+const deleteUser = (id: string): Promise<Array<IUser>> => usersRepo.deleteUser(id);
 
 module.exports = {
   getAllUsers,

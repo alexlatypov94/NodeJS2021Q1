@@ -1,6 +1,5 @@
-import { IBoard } from '../../interfaces';
-
 export {};
+import { IBoard, IColumn } from '../../interfaces';
 const uuid = require('uuid');
 /**
  * @typedef {Object} BoardObj - Board
@@ -10,7 +9,10 @@ const uuid = require('uuid');
  */
 
 /** Class Boards */
-class Board {
+class Board implements IBoard {
+  id: string;
+  title: string;
+  columns: Array<IColumn>;
   /**
    * @param {string} id - The board's id
    * @param {string} title - The board's title

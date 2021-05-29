@@ -12,10 +12,10 @@
     "build": "tsc src/server.ts",
     "start": "nodemon -e ts -w ./src/server.ts -x npm run dev",
     "dev": "ts-node ./src/server.ts",
-    "lint": "eslint --ext .js,.ts --fix src/",
+    "lint": "eslint --ext .js,.ts ./src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
-    "doc": "jsdoc -d docs -r -R README.md --configure conf.json src/app.ts"
+    "doc": "jsdoc -d docs -r -R README.md --configure conf.json ./src/app.js"
   },
   "keywords": [
     "rs",

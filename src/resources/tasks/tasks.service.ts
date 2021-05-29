@@ -3,38 +3,40 @@
  * @module TaskServices
  */
 
+import { ITask } from "../../interfaces";
+
 const tasksMemory = require('./tasks.memory.repository');
 
 /**
  * ### Task service
  * @returns {Promise<TaskObj[]>} - all tasks
  */
-const getAllTasks = () => tasksMemory.getAllTasks();
+const getAllTasks = (): Promise<Array<ITask>> => tasksMemory.getAllTasks();
 /**
  * ### Task service
  * @param {string} id - the task's id
  * @returns {Promise<TaskObj>} - task with current id
  */
-const getTaskById = (id) => tasksMemory.getTaskById(id);
+const getTaskById = (id: string): Promise<ITask> => tasksMemory.getTaskById(id);
 /**
  * ### Task service
  * @param {Object} task - the task
  * @returns {Promise<TaskObj>} - the new task
  */
-const createTask = (task) => tasksMemory.createTask(task);
+const createTask = (task: ITask): Promise<ITask> => tasksMemory.createTask(task);
 /**
  * ### Task service
  * @param {Object} task - the task 
  * @param {string} id - the task's id
  * @returns {Promise<TaskObj>} - changed task
  */
-const changeTask = (task, id) => tasksMemory.changeTask(task, id);
+const changeTask = (task: ITask, id: string): Promise<ITask> => tasksMemory.changeTask(task, id);
 /**
  * ### Task service
  * @param {string} id - the task's id
  * @returns {Promise<TaskObj[]>} - all tasks without deleted task
  */
-const deleteTask = (id) => tasksMemory.deleteTask(id);
+const deleteTask = (id: string): Promise<Array<ITask>> => tasksMemory.deleteTask(id);
 
 module.exports = {
   getAllTasks,
