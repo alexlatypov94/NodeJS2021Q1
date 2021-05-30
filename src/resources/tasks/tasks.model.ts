@@ -12,7 +12,7 @@ class Task implements ITask {
 
   description: string;
 
-  userId: string;
+  userId: string | null;
 
   boardId: string;
 
