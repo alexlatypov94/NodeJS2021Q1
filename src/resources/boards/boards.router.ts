@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { IBoard } from '../../interfaces';
+
 const router = require('express').Router();
 const Board = require('./boards.model');
 const boardsService = require('./boards.service');
@@ -36,7 +37,9 @@ router.route('/:boardId').put(async (req: Request, res: Response) => {
 });
 
 router.route('/:boardId').delete(async (req: Request, res: Response) => {
-  const updateBoards: Array<IBoard> = await boardsService.deleteBoard(req.params['boardId']);
+  const updateBoards: Array<IBoard> = await boardsService.deleteBoard(
+    req.params['boardId']
+  );
   res.status(204).json(updateBoards.map(Board.toResponse));
 });
 

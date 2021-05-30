@@ -12,7 +12,7 @@
     "build": "tsc src/server.ts",
     "start": "nodemon -e ts -w ./src/server.ts -x npm run dev",
     "dev": "ts-node ./src/server.ts",
-    "lint": "eslint --ext .js,.ts ./src/",
+    "lint": "eslint --ext .js,.ts --fix ./src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",
     "test:auth": "cross-env DEBUG=rs:* TEST_MODE=auth jest --noStackTrace",
     "doc": "jsdoc -d docs -r -R README.md --configure conf.json ./src/app.js"
@@ -60,6 +60,10 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.12",
+    "@types/swagger-ui-express": "^4.1.2",
+    "@types/uuid": "^8.3.0",
+    "@types/yamljs": "^0.2.31",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
     "chai": "4.3.4",
     "debug": "4.3.1",
     "dirty-chai": "2.0.1",
