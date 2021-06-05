@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { logging } from './middlewares';
 
 const express = require('express');
 const swaggerUI = require('swagger-ui-express');
@@ -12,6 +13,7 @@ const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+app.use(logging);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
