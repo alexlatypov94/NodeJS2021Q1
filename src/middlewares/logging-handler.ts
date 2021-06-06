@@ -30,5 +30,6 @@ export const logging = (
     } status:${statusCode} [${processingTime}] \n ${dataBody} \n ${dataQuery} \n`;
 
     fs.appendFileSync('logs/logging.txt', logData);
+    process.stdout.write(logData);
   });
 };
