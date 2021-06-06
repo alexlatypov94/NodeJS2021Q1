@@ -10,7 +10,7 @@ router.route('/').get(async (_req: Request, res: Response) => {
 });
 
 router.route('/:userId').get(async (req: Request, res: Response) => {
-  const user = await usersService.getUserById(req.params["userId"]);
+  const user = await usersService.getUserById(req.params['userId']);
   res.status(200).json(User.toResponse(user));
 });
 
@@ -25,12 +25,15 @@ router.route('/').post(async (req: Request, res: Response) => {
 });
 
 router.route('/:userId').put(async (req: Request, res: Response) => {
-  const currentUser = await usersService.changeUser(req.body, req.params["userId"]);
+  const currentUser = await usersService.changeUser(
+    req.body,
+    req.params['userId']
+  );
   res.status(200).json(User.toResponse(currentUser));
 });
 
 router.route('/:userId').delete(async (req: Request, res: Response) => {
-  const users = await usersService.deleteUser(req.params["userId"]);
+  const users = await usersService.deleteUser(req.params['userId']);
   res.status(204).json(users.map(User.toResponse));
 });
 

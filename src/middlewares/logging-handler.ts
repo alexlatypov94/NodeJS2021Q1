@@ -2,7 +2,11 @@ import { Request, Response, NextFunction } from 'express';
 import fs from 'fs';
 import { finished } from 'stream';
 
-export const logging = (req: Request, res: Response, next: NextFunction) => {
+export const logging = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): void => {
   const start = Date.now();
   const { method, url } = req;
   const currentTime = new Date();
@@ -12,13 +16,18 @@ export const logging = (req: Request, res: Response, next: NextFunction) => {
   finished(res, () => {
     const processingTime = Date.now() - start;
     const { statusCode } = res;
-    const isEmpty = (): boolean => !Object.keys(req.body).length;
-    const dataBody = isEmpty() ? 'body is empty' : JSON.stringify(req.body);
+    const isEmpty = (type: string): boolean =>
+      !Object.keys(type === 'body' ? req.body : req.query).length;
+    const dataBody = isEmpty('body')
+      ? 'body is empty'
+      : JSON.stringify(req.body);
+    const dataQuery = isEmpty('query')
+      ? 'query is empty'
+      : JSON.stringify(req.query);
     const baseUrl = 'http://localhost:4000';
     const logData = `${currentTime.toUTCString()} ${method} ${
       baseUrl + url
-    } status:${statusCode} [${processingTime}] \n ${dataBody} \n`;
-    console.log(dataBody);
+    } status:${statusCode} [${processingTime}] \n ${dataBody} \n ${dataQuery} \n`;
 
     fs.appendFileSync('logs/logging.txt', logData);
   });
