@@ -65,6 +65,12 @@ If you're using VSCode, you can get a better developer experience from integrati
 npm run lint
 ```
 
+## Get jsDoc
+
+```
+npm run doc
+```
+
 ### Debugging in VSCode
 
 Press <kbd>F5</kbd> to debug.
