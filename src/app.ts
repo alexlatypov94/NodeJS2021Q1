@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
+import { errorHandler, errorLog, logging } from './middlewares';
 
 const express = require('express');
 const swaggerUI = require('swagger-ui-express');
@@ -12,6 +13,8 @@ const app = express();
 const swaggerDocument = YAML.load(path.join(__dirname, '../doc/api.yaml'));
 
 app.use(express.json());
+errorHandler();
+app.use(logging);
 
 app.use('/doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
@@ -26,5 +29,6 @@ app.use('/', (req: Request, res: Response, next: NextFunction) => {
 app.use('/users', userRouter);
 app.use('/boards', boardsRouter);
 app.use('/boards/:boardId/tasks', tasksRouter);
+app.use(errorLog);
 
 module.exports = app;
