@@ -1,18 +1,37 @@
 version: '3'
-services: 
+services:
   node:
     build: .
     ports:
       - ${PORT}:${PORT}
-    depends_on: 
+    container_name: alexlatypov94-app
+    depends_on:
       - postgres
-    environment: 
-      - PORT=4000
+    environment:
+      - PORT=${PORT}
+    restart: always
+    volumes:
+      - ./logs:/app/logs
+      - ./src:/app/src
+    networks:
+      - app-network
   postgres:
     build: ./src/common/
-    ports: 
+    ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    environment: 
+    container_name: alexlatypov94-postgres
+    environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/db
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  pgdata:
