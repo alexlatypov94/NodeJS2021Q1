@@ -1,9 +1,8 @@
-import { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
+import { tasksService } from './tasks.service';
+import { Task } from './tasks.model';
 
-export {};
-const router = require('express').Router({ mergeParams: true });
-const Task = require('./tasks.model');
-const tasksService = require('./tasks.service');
+export const router = express.Router({ mergeParams: true });
 
 router.route('/').get(async (_req: Request, res: Response) => {
   const tasks = await tasksService.getAllTasks();
@@ -11,7 +10,7 @@ router.route('/').get(async (_req: Request, res: Response) => {
 });
 
 router.route('/:taskId').get(async (req: Request, res: Response) => {
-  const task = await tasksService.getTaskById(req.params['taskId']);
+  const task = await tasksService.getTaskById(req.params['taskId'] as string);
   if (!task) {
     res.status(404).json();
   } else {
@@ -34,13 +33,14 @@ router.route('/').post(async (req: Request, res: Response) => {
 });
 
 router.route('/:taskId').put(async (req: Request, res: Response) => {
-  const task = await tasksService.changeTask(req.body, req.params['taskId']);
+  const task = await tasksService.changeTask(
+    req.body,
+    req.params['taskId'] as string
+  );
   res.status(200).json(Task.toResponse(task));
 });
 
 router.route('/:taskId').delete(async (req: Request, res: Response) => {
-  const tasks = await tasksService.deleteTask(req.params['taskId']);
+  const tasks = await tasksService.deleteTask(req.params['taskId'] as string);
   res.status(204).json(tasks.map(Task.toResponse));
 });
-
-module.exports = router;

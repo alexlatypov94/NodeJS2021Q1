@@ -1,6 +1,5 @@
+import { tasksMemory } from './tasks.memory.repository';
 import { ITask } from '../../interfaces';
-
-const tasksMemory = require('./tasks.memory.repository');
 
 const getAllTasks = (): Promise<Array<ITask>> => tasksMemory.getAllTasks();
 
@@ -15,7 +14,7 @@ const changeTask = (task: ITask, id: string): Promise<ITask> =>
 const deleteTask = (id: string): Promise<Array<ITask>> =>
   tasksMemory.deleteTask(id);
 
-module.exports = {
+export const tasksService = {
   getAllTasks,
   getTaskById,
   createTask,

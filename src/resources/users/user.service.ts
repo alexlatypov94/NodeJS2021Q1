@@ -1,6 +1,5 @@
 import { IUser } from '../../interfaces';
-
-const usersRepo = require('./user.memory.repository');
+import { usersRepo } from './user.memory.repository';
 
 const getAllUsers = (): Promise<Array<IUser>> => usersRepo.getAllUsers();
 
@@ -14,7 +13,7 @@ const changeUser = (user: IUser, id: string): Promise<IUser> =>
 const deleteUser = (id: string): Promise<Array<IUser>> =>
   usersRepo.deleteUser(id);
 
-module.exports = {
+export const usersService = {
   getAllUsers,
   getUserById,
   createUser,

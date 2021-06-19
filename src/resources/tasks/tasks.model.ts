@@ -1,9 +1,7 @@
+import { v4 as uuid } from 'uuid';
 import { ITask } from '../../interfaces';
 
-export {};
-const uuid = require('uuid');
-
-class Task implements ITask {
+export class Task implements ITask {
   id: string;
 
   title: string;
@@ -19,13 +17,13 @@ class Task implements ITask {
   columnId: string;
 
   constructor({
-    id = uuid.v1(),
+    id = uuid(),
     title = 'task1',
     order = 0,
     description = 'task description',
-    userId = uuid.v1(),
-    boardId = uuid.v1(),
-    columnId = uuid.v1(),
+    userId = uuid(),
+    boardId = uuid(),
+    columnId = uuid(),
   } = {}) {
     this.id = id;
     this.title = title;
@@ -36,10 +34,8 @@ class Task implements ITask {
     this.columnId = columnId;
   }
 
-  static toResponse(task: ITask) {
+  static toResponse(task: ITask): ITask {
     const { id, title, order, description, userId, boardId, columnId } = task;
-    return { id, title, order, description, userId, boardId, columnId };
+    return { id, title, order, description, userId, boardId, columnId } as ITask;
   }
 }
-
-module.exports = Task;

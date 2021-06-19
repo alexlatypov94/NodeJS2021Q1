@@ -1,12 +1,10 @@
 import { ITask } from '../../interfaces';
-
-export {};
-const { TASKS } = require('../../common/localDb');
+import { TASKS } from '../../common/localDb';
 
 const getAllTasks = async (): Promise<Array<ITask>> => TASKS;
 
 const getTaskById = async (id: string): Promise<ITask> =>
-  TASKS.find((el: ITask) => id === el.id);
+  TASKS.find((el: ITask) => id === el.id) as ITask;
 
 const createTask = async (task: ITask): Promise<ITask> => {
   TASKS.push(task);
@@ -24,7 +22,7 @@ const deleteTask = async (id: string): Promise<Array<ITask>> => {
   return TASKS;
 };
 
-module.exports = {
+export const tasksMemory = {
   getAllTasks,
   getTaskById,
   createTask,

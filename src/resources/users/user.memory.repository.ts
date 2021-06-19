@@ -1,13 +1,12 @@
 import { IUser } from '../../interfaces';
+import { USERS_DB } from '../../common/localDb';
 
-export {};
-const { USERS_DB } = require('../../common/localDb');
 const { updateUser } = require('../utils/taskRemove');
 
 const getAllUsers = async (): Promise<Array<IUser>> => USERS_DB;
 
 const getUserById = async (id: string): Promise<IUser> =>
-  USERS_DB.find((el: IUser) => id === el.id);
+  USERS_DB.find((el: IUser) => id === el.id) as IUser;
 
 const createUser = async (user: IUser): Promise<IUser> => {
   USERS_DB.push(user);
@@ -26,7 +25,7 @@ const deleteUser = async (id: string): Promise<Array<IUser>> => {
   return USERS_DB;
 };
 
-module.exports = {
+export const usersRepo = {
   getAllUsers,
   getUserById,
   createUser,
