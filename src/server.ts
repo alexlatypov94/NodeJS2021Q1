@@ -1,6 +1,9 @@
 import { app } from './app';
-import { env } from './common/config';
+import { PORT } from './common/config';
+import { TryDBConnect } from './common/localDb';
 
-app.listen(env.PORT, () =>
-  console.log(`App is running on http://localhost:${env.PORT}`)
-);
+TryDBConnect(() => {
+  app.listen(PORT, () =>
+    console.log(`App is running on http://localhost:${PORT}`)
+  );
+});
