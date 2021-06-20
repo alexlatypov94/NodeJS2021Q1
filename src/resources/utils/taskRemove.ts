@@ -1,27 +1,12 @@
-import { ITask } from '../../interfaces';
-import { TASKS } from '../../common/localDb';
+import { getRepository } from 'typeorm';
+import { Task } from '../../entities/task.model';
 
-export const deleteBoardsTask = async (id: string): Promise<Array<ITask>> => {
-  const newTasks = TASKS.map((el: ITask, index: number) => {
-    if (id === el.boardId) {
-      return index;
-    }
-    return el;
-  }).filter((el: ITask | number) => typeof el === 'number');
-
-  newTasks.forEach((el: number | ITask, index: number) => {
-    TASKS.splice((el as number) - index, 1);
-  });
-  return TASKS;
+export const deleteBoardsTask = async (id: string): Promise<void> => {
+  const taskRepo = getRepository(Task);
+  await taskRepo.delete({ boardId: id });
 };
 
 export const updateUser = async (id: string): Promise<void> => {
-  TASKS.forEach((el: ITask) => {
-    if (el.userId === id) {
-      const newObj = { ...el, userId: null };
-      Object.assign(el, newObj);
-    }
-  });
+  const taskRepo = getRepository(Task);
+  await taskRepo.update({ userId: id }, { userId: null });
 };
-
-module.exports = { deleteBoardsTask, updateUser };
