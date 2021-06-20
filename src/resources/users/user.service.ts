@@ -1,20 +1,20 @@
-import { IUser } from '../../interfaces';
+import { User } from '../../entities/user.model';
+import { usersRepo } from './user.memory.repository';
 
-const usersRepo = require('./user.memory.repository');
+const getAllUsers = (): Promise<Array<User>> => usersRepo.getAllUsers();
 
-const getAllUsers = (): Promise<Array<IUser>> => usersRepo.getAllUsers();
+const getUserById = (id: string): Promise<User | undefined> =>
+  usersRepo.getUserById(id);
 
-const getUserById = (id: string): Promise<IUser> => usersRepo.getUserById(id);
+const createUser = (user: User): Promise<User> => usersRepo.createUser(user);
 
-const createUser = (user: IUser): Promise<IUser> => usersRepo.createUser(user);
-
-const changeUser = (user: IUser, id: string): Promise<IUser> =>
+const changeUser = (user: User, id: string): Promise<User | undefined> =>
   usersRepo.changeUser(user, id);
 
-const deleteUser = (id: string): Promise<Array<IUser>> =>
+const deleteUser = (id: string): Promise<Array<User>> =>
   usersRepo.deleteUser(id);
 
-module.exports = {
+export const usersService = {
   getAllUsers,
   getUserById,
   createUser,

@@ -1,8 +1,7 @@
+import { v4 as uuid } from 'uuid';
 import { IUser } from '../../interfaces';
 
-const uuid = require('uuid');
-
-class User implements IUser {
+export class User implements IUser {
   id: string;
 
   name: string;
@@ -12,7 +11,7 @@ class User implements IUser {
   password: string;
 
   constructor({
-    id = uuid.v1(),
+    id = uuid(),
     name = 'USER',
     login = 'user',
     password = 'P@55w0rd',
@@ -23,10 +22,8 @@ class User implements IUser {
     this.password = password;
   }
 
-  static toResponse(user: IUser) {
+  static toResponse(user: IUser): IUser {
     const { id, name, login } = user;
-    return { id, name, login };
+    return { id, name, login } as IUser;
   }
 }
-
-module.exports = User;

@@ -1,30 +1,38 @@
-import { ITask } from '../../interfaces';
+import { getRepository } from 'typeorm';
+import { Task } from '../../entities/task.model';
 
-export {};
-const { TASKS } = require('../../common/localDb');
-
-const getAllTasks = async (): Promise<Array<ITask>> => TASKS;
-
-const getTaskById = async (id: string): Promise<ITask> =>
-  TASKS.find((el: ITask) => id === el.id);
-
-const createTask = async (task: ITask): Promise<ITask> => {
-  TASKS.push(task);
-  return getTaskById(task.id);
+const getAllTasks = async (boardId: string): Promise<Array<Task>> => {
+  const taskRepo = getRepository(Task);
+  const result = await taskRepo.find({ where: { boardId } });
+  return result;
 };
 
-const changeTask = async (task: ITask, id: string): Promise<ITask> => {
-  const currentTask = TASKS.find((el: ITask) => id === el.id);
-  return Object.assign(currentTask, task);
+const getTaskById = async (id: string): Promise<Task | undefined> => {
+  const taskRepo = getRepository(Task);
+  const result = await taskRepo.findOne(id);
+  return result;
 };
 
-const deleteTask = async (id: string): Promise<Array<ITask>> => {
-  const taskIndex = TASKS.findIndex((el: ITask) => id === el.id);
-  TASKS.splice(taskIndex, 1);
-  return TASKS;
+const createTask = async (task: Task, boardId: string): Promise<Task> => {
+  const taskRepo = getRepository(Task);
+  const result = await taskRepo.create({ ...task, boardId });
+  const savedResult = await taskRepo.save(result);
+  return savedResult;
 };
 
-module.exports = {
+const changeTask = async (task: Task, id: string): Promise<Task> => {
+  const taskRepo = getRepository(Task);
+  const result = await taskRepo.update(id, task);
+  return result.raw;
+};
+
+const deleteTask = async (id: string): Promise<void> => {
+  const taskRepo = getRepository(Task);
+  await taskRepo.delete(id);
+
+};
+
+export const tasksMemory = {
   getAllTasks,
   getTaskById,
   createTask,

@@ -1,7 +1,9 @@
-export {};
-const { PORT } = require('./common/config');
-const app = require('./app');
+import { app } from './app';
+import { PORT } from './common/config';
+import { TryDBConnect } from './common/localDb';
 
-app.listen(PORT, () =>
-  console.log(`App is running on http://localhost:${PORT}`)
-);
+TryDBConnect(() => {
+  app.listen(PORT, () =>
+    console.log(`App is running on http://localhost:${PORT}`)
+  );
+});
