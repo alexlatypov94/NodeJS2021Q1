@@ -1,28 +1,38 @@
-import { IUser } from '../../interfaces';
-import { USERS_DB } from '../../common/localDb';
+import { getRepository } from 'typeorm';
+import { User } from '../../entities/user.model';
+import { updateUser } from '../utils/taskRemove';
 
-const { updateUser } = require('../utils/taskRemove');
-
-const getAllUsers = async (): Promise<Array<IUser>> => USERS_DB;
-
-const getUserById = async (id: string): Promise<IUser> =>
-  USERS_DB.find((el: IUser) => id === el.id) as IUser;
-
-const createUser = async (user: IUser): Promise<IUser> => {
-  USERS_DB.push(user);
-  return getUserById(user.id);
+const getAllUsers = async (): Promise<Array<User>> => {
+  const userRepo = getRepository(User);
+  const result = await userRepo.find();
+  return result;
 };
 
-const changeUser = async (user: IUser, id: string): Promise<IUser> => {
-  const currentUser = USERS_DB.find((el: IUser) => id === el.id);
-  return Object.assign(currentUser, user);
+const getUserById = async (id: string): Promise<User | undefined> => {
+  const userRepo = getRepository(User);
+  const result = await userRepo.findOne(id);
+  return result;
 };
 
-const deleteUser = async (id: string): Promise<Array<IUser>> => {
-  const index = USERS_DB.findIndex((el: IUser) => id === el.id);
-  USERS_DB.splice(index, 1);
+const createUser = async (user: User): Promise<User> => {
+  const userRepo = getRepository(User);
+  const result = await userRepo.create(user);
+  const savedResult = await userRepo.save(result);
+  return savedResult;
+};
+
+const changeUser = async (user: User, id: string): Promise<User> => {
+  const userRepo = getRepository(User);
+  const result = await userRepo.update(id, user);
+  return result.raw;
+};
+
+const deleteUser = async (id: string): Promise<Array<User>> => {
+  const userRepo = getRepository(User);
+  await userRepo.delete(id);
   updateUser(id);
-  return USERS_DB;
+  const result = await userRepo.find();
+  return result;
 };
 
 export const usersRepo = {
