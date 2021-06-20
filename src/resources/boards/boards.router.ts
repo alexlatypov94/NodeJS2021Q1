@@ -1,46 +1,41 @@
 import express, { Request, Response } from 'express';
-import { Board } from './boards.model';
 import { boardsService } from './boards.service';
-import { IBoard } from '../../interfaces';
 
 export const router = express.Router();
 
 router.route('/').get(async (_req: Request, res: Response) => {
-  const boards: Array<IBoard> = await boardsService.getAllBoards();
-  res.status(200).json(boards.map(Board.toResponse));
+  const boards = await boardsService.getAllBoards();
+  res.status(200).json(boards);
 });
 
 router.route('/:boardId').get(async (req: Request, res: Response) => {
-  const board: IBoard = await boardsService.getBoardById(
+  const board = await boardsService.getBoardById(
     req.params['boardId'] as string
   );
   if (!board) {
     res.status(404).json();
   } else {
-    res.status(200).json(Board.toResponse(board));
+    res.status(200).json(board);
   }
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
-  const newBoard: IBoard = new Board({
-    title: req.body.title,
-    columns: req.body.columns,
-  });
-  const board: IBoard = await boardsService.createBoard(newBoard);
-  res.status(201).json(Board.toResponse(board));
+  const newBoard = req.body;
+  const board = await boardsService.createBoard(newBoard);
+  res.status(201).json(board);
 });
 
 router.route('/:boardId').put(async (req: Request, res: Response) => {
-  const currentBoard: IBoard = await boardsService.changeBoard(
+  const currentBoard = await boardsService.changeBoard(
     req.body,
     req.params['boardId'] as string
   );
-  res.status(200).json(Board.toResponse(currentBoard));
+  res.status(200).json(currentBoard);
 });
 
 router.route('/:boardId').delete(async (req: Request, res: Response) => {
-  const updateBoards: Array<IBoard> = await boardsService.deleteBoard(
+  const updateBoards = await boardsService.deleteBoard(
     req.params['boardId'] as string
   );
-  res.status(204).json(updateBoards.map(Board.toResponse));
+  res.status(204).json(updateBoards);
 });
