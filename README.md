@@ -19,6 +19,10 @@ npm install
 
 ## Running application
 
+local run
+
+``` npm start ```
+
 ```
 docker compose up
 ```
