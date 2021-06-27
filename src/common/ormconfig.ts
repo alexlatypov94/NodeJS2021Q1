@@ -14,9 +14,8 @@ const {
   POSTGRES_PORT,
 } = process.env;
 
-export const config = {
+const config = {
   type: 'postgres',
-  name: 'default',
   host: HOST,
   port: POSTGRES_PORT,
   username: POSTGRES_USER,
@@ -24,7 +23,11 @@ export const config = {
   database: POSTGRES_DB,
   synchronize: true,
   logging: false,
-  entities: [`${__dirname}/../../src/entities/**/*.ts`],
-  migrations: ['../../src/migration/**/*.ts'],
-  subscribers: ['../../src/subscriber/**/*.ts'],
+  entities: [path.join(__dirname, '../entities/*.model{.ts,.js}')],
+  migrations: [path.join(__dirname, '../migrations/*{.ts,.js}')],
+  cli: {
+    migrationsDir: '/src/migrations',
+  },
 } as ConnectionOptions;
+
+export default config;
