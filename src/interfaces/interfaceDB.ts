@@ -26,3 +26,9 @@ export interface ITask {
   boardId: string;
   columnId: string;
 }
+
+export interface IDataBase {
+  USERS_DB: Array<IUser>;
+  BOARDS_DB: Array<IBoard>;
+  TASKS: Array<ITask>;
+}

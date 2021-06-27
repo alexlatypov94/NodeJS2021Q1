@@ -1,22 +1,21 @@
-import { IBoard } from '../../interfaces/interfaceDB';
+import { Board } from '../../entities/board.model';
+import { boardMemory } from './boards.memory.repository';
 
-const boardMemory = require('./boards.memory.repository');
+const getAllBoards = (): Promise<Array<Board>> => boardMemory.getAllBoards();
 
-const getAllBoards = (): Promise<Array<IBoard>> => boardMemory.getAllBoards();
-
-const getBoardById = (id: string): Promise<IBoard> =>
+const getBoardById = (id: string): Promise<Board | undefined> =>
   boardMemory.getBoardById(id);
 
-const createBoard = (board: IBoard): Promise<IBoard> =>
+const createBoard = (board: Board): Promise<Board> =>
   boardMemory.createBoard(board);
 
-const changeBoard = (board: IBoard, id: string): Promise<IBoard> =>
+const changeBoard = (board: Board, id: string): Promise<Board> =>
   boardMemory.changeBoard(board, id);
 
-const deleteBoard = (id: string): Promise<Array<IBoard>> =>
+const deleteBoard = (id: string): Promise<boolean> =>
   boardMemory.deleteBoard(id);
 
-module.exports = {
+export const boardsService = {
   getAllBoards,
   getBoardById,
   createBoard,

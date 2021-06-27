@@ -1,8 +1,9 @@
-import { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
+import { User } from '../../entities/user.model';
+import { IUser } from '../../interfaces';
+import { usersService } from './user.service';
 
-const router = require('express').Router();
-const User = require('./user.model');
-const usersService = require('./user.service');
+export const router = express.Router();
 
 router.route('/').get(async (_req: Request, res: Response) => {
   const users = await usersService.getAllUsers();
@@ -10,16 +11,12 @@ router.route('/').get(async (_req: Request, res: Response) => {
 });
 
 router.route('/:userId').get(async (req: Request, res: Response) => {
-  const user = await usersService.getUserById(req.params['userId']);
-  res.status(200).json(User.toResponse(user));
+  const user = await usersService.getUserById(req.params['userId'] as string);
+  res.status(200).json(User.toResponse(user as IUser));
 });
 
 router.route('/').post(async (req: Request, res: Response) => {
-  const newUser = new User({
-    login: req.body.login,
-    password: req.body.password,
-    name: req.body.name,
-  });
+  const newUser = req.body;
   const user = await usersService.createUser(newUser);
   res.status(201).json(User.toResponse(user));
 });
@@ -27,14 +24,14 @@ router.route('/').post(async (req: Request, res: Response) => {
 router.route('/:userId').put(async (req: Request, res: Response) => {
   const currentUser = await usersService.changeUser(
     req.body,
-    req.params['userId']
+    req.params['userId'] as string
   );
-  res.status(200).json(User.toResponse(currentUser));
+  res.status(200).json(User.toResponse(currentUser as IUser));
 });
 
-router.route('/:userId').delete(async (req: Request, res: Response) => {
-  const users = await usersService.deleteUser(req.params['userId']);
-  res.status(204).json(users.map(User.toResponse));
-});
-
-module.exports = router;
+router.route('/:userId').delete(
+  async (req: Request, res: Response): Promise<void> => {
+    const users = await usersService.deleteUser(req.params['userId'] as string);
+    res.status(204).json(users.map(User.toResponse));
+  }
+);
