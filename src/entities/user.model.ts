@@ -16,7 +16,7 @@ export class User implements IUser {
   @Column({ length: 100 })
   name: string;
 
-  @Column({ length: 100 })
+  @Column({ length: 100, nullable: true })
   login: string;
 
   @Column({ length: 100 })
