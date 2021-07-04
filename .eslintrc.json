@@ -33,5 +33,5 @@
     "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "import/no-cycle": "off"
   },
-  "ignorePatterns": ["src/migrations/*.ts"]
+  "ignorePatterns": ["src/migrations/*.ts", "nest-js/**/*.ts"]
 }
