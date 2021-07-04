@@ -19,7 +19,8 @@
     "doc": "jsdoc -d docs -r -R README.md --configure conf.json ./src/app.js",
     "generate": "npm run typeorm migration:generate -- -n initMigration",
     "run-migration": "npm run typeorm migration:run",
-    "typeorm": "ts-node ./node_modules/typeorm/cli.js --config=./src/common/ormconfig.ts"
+    "typeorm": "ts-node ./node_modules/typeorm/cli.js --config=./src/common/ormconfig.ts",
+    "artillery": "artillery run artillery.yml"
   },
   "keywords": [
     "rs",
