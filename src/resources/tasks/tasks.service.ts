@@ -1,24 +1,41 @@
-import { tasksMemory } from './tasks.memory.repository';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { Task } from '../../entities/task.model';
+import { User } from '../../entities/user.model';
 
-const getAllTasks = (boardId: string): Promise<Array<Task>> =>
-  tasksMemory.getAllTasks(boardId);
+@Injectable()
+export class TaskService {
+  constructor(
+    @InjectRepository(Task)
+    private readonly taskRepo: Repository<Task>
+  ) {}
 
-const getTaskById = (id: string): Promise<Task | undefined> =>
-  tasksMemory.getTaskById(id);
+  async createTask(task: Task, boardId: string): Promise<Task> {
+    const result = await this.taskRepo.create({ ...task, boardId });
+    const savedResult = await this.taskRepo.save(result);
+    return savedResult;
+  }
 
-const createTask = (task: Task, boardId: string): Promise<Task> =>
-  tasksMemory.createTask(task, boardId);
+  async getAllTasks(boardId: string): Promise<Array<Task>> {
+    const result = await this.taskRepo.find({ where: { boardId } });
+    return result;
+  }
 
-const changeTask = (task: Task, id: string): Promise<Task> =>
-  tasksMemory.changeTask(task, id);
+  async getTaskById(id: string): Promise<Task | undefined> {
+    const result = await this.taskRepo.findOne(id);
+    return result;
+  }
 
-const deleteTask = (id: string): Promise<void> => tasksMemory.deleteTask(id);
+  async changeTask(task: User, id: string): Promise<Task | undefined> {
+    await this.taskRepo.update(id, task);
+    const result = await this.taskRepo.findOne(id);
+    return result;
+  }
 
-export const tasksService = {
-  getAllTasks,
-  getTaskById,
-  createTask,
-  changeTask,
-  deleteTask,
-};
+  async deleteTask(id: string): Promise<Array<Task>> {
+    await this.taskRepo.delete(id);
+    const result = await this.taskRepo.find();
+    return result;
+  }
+}
