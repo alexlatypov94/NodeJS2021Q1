@@ -15,4 +15,5 @@ export const {
   POSTGRES_PASSWORD,
   POSTGRES_DB,
   MONGO_CONNECTION_STRING,
+  USE_FASTIFY,
 } = process.env;
