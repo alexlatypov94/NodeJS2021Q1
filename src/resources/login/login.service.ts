@@ -16,7 +16,7 @@ export class LoginService {
     const foundedUser = await this.userRepo.findOne({ login });
     if (
       foundedUser &&
-      (await bcrypt.compare(String(password), String(foundedUser?.password)))
+      (await bcrypt.compare(String(password), String(foundedUser.password)))
     ) {
       return foundedUser;
     }

@@ -20,8 +20,12 @@ export class LoggingHandler implements NestMiddleware {
     finished(res, () => {
       const processingTime = Date.now() - start;
       const { statusCode } = res;
-      const isEmpty = (type: string): boolean =>
-        !Object.keys(type === 'body' ? req.body : req.query).length;
+      const isEmpty = (type: string): boolean => {
+        if (!req.body || !req.query) {
+          return true;
+        }
+        return !Object.keys(type === 'body' ? req.body : req.query).length;
+      };
       const dataBody = isEmpty('body')
         ? 'body is empty'
         : JSON.stringify(req.body);

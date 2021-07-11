@@ -11,7 +11,7 @@
   "scripts": {
     "build": "tsc src/server.ts",
     "start": "nodemon -e ts -w ./src/server.ts -x npm run dev",
-    "start:nest": "nest start",
+    "start:nest": "nest start .src/main.ts",
     "dev": "ts-node ./src/server.ts",
     "lint": "eslint --ext .js,.ts --fix ./src/",
     "test": "cross-env DEBUG=rs:* jest --testMatch \"<rootDir>/test/e2e/test/*.test.js\" --noStackTrace --runInBand",

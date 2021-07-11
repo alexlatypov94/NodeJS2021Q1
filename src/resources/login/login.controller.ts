@@ -21,7 +21,6 @@ export class LoginController {
       }
     } catch (e) {
       res.status(StatusCodes.UNAUTHORIZED).send(ReasonPhrases.UNAUTHORIZED);
-      console.log(e);
     }
   }
 }
