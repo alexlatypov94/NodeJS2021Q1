@@ -1,15 +1,23 @@
-import { NextFunction, Request, Response } from 'express';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpException,
+} from '@nestjs/common';
+import { Response } from 'express';
 import fs from 'fs';
 
-export const errorLog = (
-  _err: Error,
-  req: Request,
-  res: Response,
-  next: NextFunction
-): void => {
-  const time = new Date();
-  const errorInfo = `${time} status: ${500} ${JSON.stringify(req.query)} \n`;
-  fs.appendFileSync('./logs/errorLogging.txt', errorInfo);
-  res.status(500).send('something wrong');
-  next();
-};
+@Catch(HttpException)
+export class ErrorLog implements ExceptionFilter {
+  // eslint-disable-next-line class-methods-use-this
+  public catch(_err: Error, host: ArgumentsHost): Response | void {
+    const ctx = host.switchToHttp();
+    const req = ctx.getRequest();
+    const next = ctx.getNext();
+    const time = new Date();
+    const errorInfo = `${time} status: ${500} ${JSON.stringify(req.query)} \n`;
+    process.stdout.write(errorInfo)
+    fs.appendFileSync('./logs/errorLogging.txt', errorInfo);
+    next();
+  }
+}

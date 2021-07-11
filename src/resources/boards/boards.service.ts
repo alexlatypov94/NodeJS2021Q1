@@ -1,25 +1,45 @@
-import { IBoard } from '../../interfaces/interfaceDB';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Board } from '../../entities/board.model';
+import { Task } from '../../entities/task.model';
 
-const boardMemory = require('./boards.memory.repository');
+@Injectable()
+export class BoardsService {
+  constructor(
+    @InjectRepository(Board)
+    private readonly boardRepo: Repository<Board>,
+    @InjectRepository(Task)
+    private readonly taskRepo: Repository<Task>
+  ) {}
 
-const getAllBoards = (): Promise<Array<IBoard>> => boardMemory.getAllBoards();
+  async createBoard(board: Board): Promise<Board> {
+    const result = await this.boardRepo.create(board);
+    const savedResult = await this.boardRepo.save(result);
+    return savedResult;
+  }
 
-const getBoardById = (id: string): Promise<IBoard> =>
-  boardMemory.getBoardById(id);
+  async getAllBoards(): Promise<Array<Board>> {
+    const result = await this.boardRepo.find();
+    return result;
+  }
 
-const createBoard = (board: IBoard): Promise<IBoard> =>
-  boardMemory.createBoard(board);
+  async getBoardById(id: string): Promise<Board | undefined> {
+    const result = await this.boardRepo.findOne(id);
+    return result;
+  }
 
-const changeBoard = (board: IBoard, id: string): Promise<IBoard> =>
-  boardMemory.changeBoard(board, id);
+  async changeBoard(board: Board, id: string): Promise<Board | undefined> {
+    const { columns, ...boardParam } = board;
+    await this.boardRepo.update(id, boardParam);
+    const result = this.boardRepo.findOne(id);
+    return result;
+  }
 
-const deleteBoard = (id: string): Promise<Array<IBoard>> =>
-  boardMemory.deleteBoard(id);
-
-module.exports = {
-  getAllBoards,
-  getBoardById,
-  createBoard,
-  changeBoard,
-  deleteBoard,
-};
+  async deleteBoard(id: string): Promise<Array<Board>> {
+    await this.taskRepo.delete({ boardId: id });
+    await this.boardRepo.delete(id);
+    const result = await this.boardRepo.find();
+    return result;
+  }
+}

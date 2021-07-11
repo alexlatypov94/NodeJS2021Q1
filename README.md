@@ -19,8 +19,100 @@ npm install
 
 ## Running application
 
+local run
+
+``` npm run start:nest ```
+
 ```
-npm start
+docker compose up
+
+```
+
+## Artillery
+
+``` npm run artillery ```
+
+## Express                                  | Fasify
+
+```
+Report @ 21:54:14(+0300) 2021-07-11         |  Report @ 21:57:12(+0300) 2021-07-11
+Elapsed time: 10 seconds                    |  Elapsed time: 10 seconds
+  Scenarios launched:  49                   |    Scenarios launched:  49
+  Scenarios completed: 0                    |    Scenarios completed: 0
+  Requests completed:  49                   |    Requests completed:  49
+  Mean response/sec: 5.01                   |    Mean response/sec: 5.01
+  Response time (msec):                     |    Response time (msec):
+    min: 68                                 |      min: 68
+    max: 86                                 |      max: 163
+    median: 69                              |      median: 70
+    p95: 75.2                               |      p95: 149.3
+    p99: 86                                 |      p99: 163
+  Codes:                                    |    Codes:
+    200: 49                                 |      200: 49
+
+Report @ 21:54:24(+0300) 2021-07-11         |  Report @ 21:57:22(+0300) 2021-07-11
+Elapsed time: 20 seconds                    |  Elapsed time: 20 seconds
+  Scenarios launched:  50                   |    Scenarios launched:  50
+  Scenarios completed: 0                    |    Scenarios completed: 0
+  Requests completed:  50                   |    Requests completed:  50
+  Mean response/sec: 5.01                   |    Mean response/sec: 5.01
+  Response time (msec):                     |    Response time (msec):
+    min: 68                                 |      min: 68
+    max: 96                                 |      max: 103
+    median: 70                              |      median: 70
+    p95: 76                                 |      p95: 77
+    p99: 96                                 |      p99: 103
+  Codes:                                    |    Codes:
+    200: 50                                 |      200: 50
+
+Report @ 21:54:34(+0300) 2021-07-11         |  Report @ 21:57:32(+0300) 2021-07-11
+Elapsed time: 30 seconds                    |  Elapsed time: 30 seconds
+  Scenarios launched:  50                   |    Scenarios launched:  50
+  Scenarios completed: 0                    |    Scenarios completed: 0
+  Requests completed:  50                   |    Requests completed:  50
+  Mean response/sec: 5.01                   |    Mean response/sec: 5.01
+  Response time (msec):                     |    Response time (msec):
+    min: 67                                 |      min: 68
+    max: 85                                 |      max: 151
+    median: 70                              |      median: 70
+    p95: 77                                 |      p95: 149
+    p99: 85                                 |      p99: 151
+  Codes:                                    |    Codes:
+    200: 50                                 |      200: 50
+
+
+Report @ 21:54:34(+0300) 2021-07-11         |  Report @ 21:57:32(+0300) 2021-07-11
+Elapsed time: 30 seconds                    |  Elapsed time: 30 seconds
+  Scenarios launched:  1                    |    Scenarios launched:  1
+  Scenarios completed: 0                    |    Scenarios completed: 0
+  Requests completed:  1                    |    Requests completed:  1
+  Mean response/sec: 2                      |    Mean response/sec: 2
+  Response time (msec):                     |    Response time (msec):
+    min: 71                                 |      min: 153
+    max: 71                                 |      max: 153
+    median: 71                              |      median: 153
+    p95: 71                                 |      p95: 153
+    p99: 71                                 |      p99: 153
+  Codes:                                    |    Codes:
+    200: 1                                  |      200: 1
+
+All virtual users finished                  |  All virtual users finished           
+Summary report @ 21:54:34(+0300) 2021-07-11 |  Summary report @ 21:57:32(+0300) 2021-07-11       
+  Scenarios launched:  150                  |    Scenarios launched:  150
+  Scenarios completed: 0                    |    Scenarios completed: 0
+  Requests completed:  150                  |    Requests completed:  150
+  Mean response/sec: 4.95                   |    Mean response/sec: 4.95
+  Response time (msec):                     |    Response time (msec):
+    min: 67                                 |      min: 68
+    max: 96                                 |      max: 163
+    median: 70                              |      median: 70
+    p95: 76                                 |      p95: 149
+    p99: 86                                 |      p99: 156
+  Scenario counts:                          |    Scenario counts:
+    0: 150 (100%)                           |      0: 150 (100%)
+  Codes:                                    |    Codes:
+    200: 150                                |      200: 150
+
 ```
 
 After starting the app on port (4000 as default) you can open

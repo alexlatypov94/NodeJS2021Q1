@@ -1,24 +1,41 @@
-import { ITask } from '../../interfaces';
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Task } from '../../entities/task.model';
+import { User } from '../../entities/user.model';
 
-const tasksMemory = require('./tasks.memory.repository');
+@Injectable()
+export class TaskService {
+  constructor(
+    @InjectRepository(Task)
+    private readonly taskRepo: Repository<Task>
+  ) {}
 
-const getAllTasks = (): Promise<Array<ITask>> => tasksMemory.getAllTasks();
+  async createTask(task: Task, boardId: string): Promise<Task> {
+    const result = await this.taskRepo.create({ ...task, boardId });
+    const savedResult = await this.taskRepo.save(result);
+    return savedResult;
+  }
 
-const getTaskById = (id: string): Promise<ITask> => tasksMemory.getTaskById(id);
+  async getAllTasks(boardId: string): Promise<Array<Task>> {
+    const result = await this.taskRepo.find({ where: { boardId } });
+    return result;
+  }
 
-const createTask = (task: ITask): Promise<ITask> =>
-  tasksMemory.createTask(task);
+  async getTaskById(id: string): Promise<Task | undefined> {
+    const result = await this.taskRepo.findOne(id);
+    return result;
+  }
 
-const changeTask = (task: ITask, id: string): Promise<ITask> =>
-  tasksMemory.changeTask(task, id);
+  async changeTask(task: User, id: string): Promise<Task | undefined> {
+    await this.taskRepo.update(id, task);
+    const result = await this.taskRepo.findOne(id);
+    return result;
+  }
 
-const deleteTask = (id: string): Promise<Array<ITask>> =>
-  tasksMemory.deleteTask(id);
-
-module.exports = {
-  getAllTasks,
-  getTaskById,
-  createTask,
-  changeTask,
-  deleteTask,
-};
+  async deleteTask(id: string): Promise<Array<Task>> {
+    await this.taskRepo.delete(id);
+    const result = await this.taskRepo.find();
+    return result;
+  }
+}
